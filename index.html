@@ -30,7 +30,7 @@
   if (token && /^[A-Za-z0-9]+$/.test(token)) {
     document.getElementById("ok").hidden = false;
     document.getElementById("token").textContent = token;
-    var target = "intent://vijayabaskar.xyz/cashiro-kite-redirect/?request_token=" +
+    var target = "intent://kite.baskar.dev/?request_token=" +
       encodeURIComponent(token) +
       "#Intent;scheme=https;package=com.ritesh.cashiro.plugin.zerodha;end";
     var open = document.getElementById("open");
