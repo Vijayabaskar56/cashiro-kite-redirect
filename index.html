@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Cashiro — Kite login</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 480px; margin: 8vh auto; padding: 0 24px; color: #1c1b1f; background: #fffbff; }
+  @media (prefers-color-scheme: dark) { body { color: #e6e1e5; background: #1c1b1f; } }
+  h1 { font-size: 1.3rem; }
+  .token { font-family: ui-monospace, monospace; word-break: break-all; padding: 12px; border: 1px solid #79747e; border-radius: 8px; margin: 16px 0; }
+  a.button, button { display: block; width: 100%; box-sizing: border-box; text-align: center; padding: 14px; margin: 8px 0; border-radius: 24px; border: none; font-size: 1rem; cursor: pointer; text-decoration: none; background: #6750a4; color: #fff; }
+  button.secondary { background: transparent; color: inherit; border: 1px solid #79747e; }
+  #error { color: #b3261e; }
+</style>
+</head>
+<body>
+<h1>Kite login complete</h1>
+<div id="ok" hidden>
+  <p>Return to the Cashiro Zerodha plugin to finish connecting.</p>
+  <div class="token" id="token"></div>
+  <a class="button" id="open">Open Cashiro Zerodha plugin</a>
+  <button class="secondary" id="copy">Copy request token</button>
+</div>
+<p id="error" hidden>No request token found in the URL. Complete the Kite login first, or copy the <code>request_token</code> value from the address bar manually.</p>
+<script>
+  var params = new URLSearchParams(location.search);
+  var token = params.get("request_token");
+  if (token && /^[A-Za-z0-9]+$/.test(token)) {
+    document.getElementById("ok").hidden = false;
+    document.getElementById("token").textContent = token;
+    var target = "intent://vijayabaskar56.github.io/cashiro-kite-redirect/?request_token=" +
+      encodeURIComponent(token) +
+      "#Intent;scheme=https;package=com.ritesh.cashiro.plugin.zerodha;end";
+    var open = document.getElementById("open");
+    open.href = target;
+    document.getElementById("copy").addEventListener("click", function () {
+      navigator.clipboard.writeText(token);
+      this.textContent = "Copied";
+    });
+    // Try to hand off to the app automatically.
+    location.href = target;
+  } else {
+    document.getElementById("error").hidden = false;
+  }
+</script>
+</body>
+</html>
